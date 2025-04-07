@@ -6,12 +6,12 @@ export default function ProductsSection() {
   const { data, isLoading} = useGetProducts();
 
   // TODO: maybe we can refactor the Catalog Service to remove duplicate `data` tag
-  if ( isLoading || data?.data == null) {
+  if ( isLoading || data == null) {
     return null;
   }
 
   // only get first three products
-  const products = data.data.slice(0, 3);
+  const products = data.slice(0, 3);
 
   return (
     <div className="bg-blueberry-100 w-full p-8">

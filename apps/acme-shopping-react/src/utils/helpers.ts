@@ -1,6 +1,7 @@
 import { CartItem, Order } from "../types/Order.ts";
 import { AddressData } from "../types/Address.ts";
 import { CartData } from "../types/Cart.ts";
+import { CartItemData } from "../types/Cart";
 
 export default function constructOrder(
   cartData: CartData,
@@ -81,7 +82,7 @@ export function getCurrentProductInView() {
   }
 }
 
-export const summarizeCart = (cartItems) => {
+export const summarizeCart = (cartItems: CartItemData[]) => {
   if (!cartItems) {
     return "Nothing. The cart is empty.";
   }
@@ -97,4 +98,8 @@ export const summarizeCart = (cartItems) => {
   const totalPriceFormatted = totalPrice.toFixed(2);
 
   return `Current Items in Cart: \n${itemList}\n\nTotal items: ${cartItems.length}\nTotal price: $${totalPriceFormatted}`;
+};
+
+export const createMarkup = (html: string) => {
+  return { __html: html };
 };

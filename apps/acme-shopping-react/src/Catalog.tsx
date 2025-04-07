@@ -8,7 +8,7 @@ export default function Catalog() {
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error fetching data</div>;
 
-    const products = data.data
+    const products = data;
 
     if (!products || products.length < 1) {
         return <div>No products available</div>;

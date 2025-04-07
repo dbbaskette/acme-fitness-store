@@ -10,7 +10,7 @@ import StateDropdown from "./StateSelect";
 
 export default function CheckoutPage() {
   const { data: userInfo } = useGetUserInfo();
-  const { data: cartData } = useGetCart(userInfo);
+  const { data: cartData } = useGetCart(userInfo?.userId ?? '');
 
   const { mutate: createOrder } = useCreateOrder(userInfo?.userId);
   const { mutate: clearCart } = useClearCart(userInfo?.userId);

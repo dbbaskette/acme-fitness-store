@@ -25,7 +25,7 @@ export default function ProductDetails() {
     if (error) return <div>Error fetching data</div>;
     if (!data) return <div>No product data...</div>;
 
-    const product = data.data
+    const product = data;
 
     const handleAddToCart = () => {
         const cartItem: CartItemData = {

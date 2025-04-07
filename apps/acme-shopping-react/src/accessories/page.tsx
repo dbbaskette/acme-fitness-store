@@ -11,11 +11,11 @@ export default function AccessoriesPage() {
   }
 
 // TODO: maybe we can refactor the Catalog Service to remove duplicate `data` tag
-    if (isLoading || data?.data == null) {
+    if (isLoading || data == null) {
         return null;
     }
 
-  const accessories = data.data
+  const accessories = data
     .filter((product) => !product.tags.includes("bicycle"))
     .reverse();
 

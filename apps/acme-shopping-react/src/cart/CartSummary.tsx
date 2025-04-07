@@ -17,8 +17,8 @@ export default function CartSummary({
 }) {
   const { data: productsData } = useGetProducts();
 
-  const deleteCartItemMutation = useDeleteCartItem(userInfo);
-  const products = productsData?.data ?? [];
+  const deleteCartItemMutation = useDeleteCartItem(userInfo.userId);
+  const products = productsData ?? [];
 
   const getProductImg = (itemId: string) => {
     const product = products.find(

@@ -8,5 +8,6 @@ export interface CartItemData {
 
 export interface CartData {
     cart: CartItemData[];
-    userid: string;
+    userid?: string;
+    userId?: string;
 }

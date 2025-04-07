@@ -8,11 +8,11 @@ import {
 import { CartData, CartItemData } from "../types/Cart.ts";
 import { UserInfo } from "../types/User.ts";
 
-export const useGetCart = (userInfo: UserInfo) => {
+export const useGetCart = (userId: string) => {
   return useQuery<CartData, Error>({
-    queryKey: ["getCart", userInfo?.userId],
-    queryFn: () => getCart(userInfo?.userId),
-    enabled: !!userInfo,
+    queryKey: ["getCart", userId],
+    queryFn: () => getCart(userId),
+    enabled: !!userId,
   });
 };
 
@@ -32,15 +32,15 @@ export const useAddToCart = (userId: string) => {
   });
 };
 
-export const useDeleteCartItem = (userInfo: UserInfo) => {
+export const useDeleteCartItem = (userId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (item: CartItemData) => {
-      await modifyCartItem(userInfo.userId, item);
+      await modifyCartItem(userId, item);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getCart", userInfo.userId] });
+      queryClient.invalidateQueries({ queryKey: ["getCart", userId] });
     },
     onError: (error: Error) => {
       console.error("Error deleting or modifying cart item:", error.message);

@@ -12,7 +12,7 @@ const defaultCatalog = {
         shortDescription: "Introducing the VelociFlex 3000, a cutting-edge bicycle that combines style and performance. Its lightweight alloy frame ensures speed and comfort, while the patented ComfortRide suspension provides a smooth ride on any terrain. With an intelligent gear-shifting system and SolarCharge technology powering LED lights and Bluetooth connectivity, this bike is perfect for both city commuting and adventurous trails. Customize your ride with various color options and enjoy ergonomic handlebars for maximum comfort. Experience the future of cycling with the VelociFlex 3000!",
         description: "# Introducing the **VelociFlex 3000**\n" +
             "\n" +
-            "The ultimate fusion of style and performance in a bike that’s unlike any other. Featuring a sleek, aerodynamic frame made from a revolutionary lightweight alloy, the VelociFlex 3000 is designed for speed without sacrificing comfort. \n" +
+            "The ultimate fusion of style and performance in a bike that's unlike any other. Featuring a sleek, aerodynamic frame made from a revolutionary lightweight alloy, the VelociFlex 3000 is designed for speed without sacrificing comfort. \n" +
             "\n" +
             "## Key Features\n" +
             "\n" +
@@ -47,7 +47,7 @@ const defaultCatalog = {
                 "- **Integrated Smart Dashboard**: Stay connected with a built-in display that tracks speed, distance, and heart rate, plus GPS navigation to guide your journey.\n" +
                 "- **Solar-Powered Assist**: Utilize solar energy for additional power, perfect for those longer adventures.\n" +
                 "\n" +
-                "Whether you’re commuting through the city or exploring scenic routes, the EcoCruiser X1 ensures an eco-friendly and enjoyable ride. Join the cycling revolution today!",
+                "Whether you're commuting through the city or exploring scenic routes, the EcoCruiser X1 ensures an eco-friendly and enjoyable ride. Join the cycling revolution today!",
             price: 1099.99,
             tags: ["bicycle"],
         },
@@ -103,7 +103,7 @@ const defaultCatalog = {
             imageUrl2: "/bike5.png",
             imageUrl3: "/bike5.png",
             name: "TrailBlazer XT",
-            shortDescription: "Meet the TrailBlazer XT, your go-to bike for off-road adventures. With a reinforced steel frame and all-terrain tires, it’s built to tackle rugged trails with ease. The progressive seven-speed gear system and built-in suspension fork ensure a smooth ride, while the water-resistant design keeps everything protected. Get ready to explore the outdoors like never before!",
+            shortDescription: "Meet the TrailBlazer XT, your go-to bike for off-road adventures. With a reinforced steel frame and all-terrain tires, it's built to tackle rugged trails with ease. The progressive seven-speed gear system and built-in suspension fork ensure a smooth ride, while the water-resistant design keeps everything protected. Get ready to explore the outdoors like never before!",
             description: "# TrailBlazer XT\n" +
                 "\n" +
                 "Conquer the great outdoors with the TrailBlazer XT, designed for adventure enthusiasts who crave rugged terrains and exhilarating rides. Its reinforced steel frame provides unmatched durability, while the advanced all-terrain tires ensure grip and stability on any surface.\n" +
@@ -149,7 +149,7 @@ const defaultCatalog = {
             imageUrl2: "/accessory2.png",
             imageUrl3: "/accessory2.png",
             name: "RingMaster Deluxe",
-            shortDescription: "Stay safe and stylish on your rides with the RingMaster Deluxe bicycle bell. Featuring a classic design with a powerful, clear tone, this bell ensures you’re heard in busy environments. Crafted from durable, weather-resistant materials, it withstands the elements while adding a touch of elegance to your bike. Easy to install and compatible with most handlebars, the RingMaster Deluxe is the perfect accessory for every cyclist. Make your presence known!",
+            shortDescription: "Stay safe and stylish on your rides with the RingMaster Deluxe bicycle bell. Featuring a classic design with a powerful, clear tone, this bell ensures you're heard in busy environments. Crafted from durable, weather-resistant materials, it withstands the elements while adding a touch of elegance to your bike. Easy to install and compatible with most handlebars, the RingMaster Deluxe is the perfect accessory for every cyclist. Make your presence known!",
             description: "# RingMaster Deluxe\n" +
                 "\n" +
                 "Enhance your cycling experience with the RingMaster Deluxe bicycle bell. Combining classic design with modern functionality, this bell delivers a powerful, clear tone to alert pedestrians and fellow cyclists.\n" +
@@ -173,27 +173,21 @@ export const useGetProducts = () => {
     const {data, error, isLoading} = useQuery<{ data: ProductData[] }, Error>({
         queryKey: ['getProducts'],
         queryFn: getProducts,
-        onError: (err) => {
-            console.error('Error fetching product data:', err);
-        },
         retry: false,
     });
     const products = (error || isLoading) ? defaultCatalog : data;
 
-    return {data: products, isLoading, error};
+    return {data: products?.data ?? [], isLoading, error};
 };
 
 export const useGetProduct = (productId: string) => {
     const {data, isLoading, error} = useQuery<{ data: ProductData }, Error>({
         queryKey: ['getProduct', productId],
         queryFn: () => getProduct(productId),
-        onError: (err) => {
-            console.error('Error fetching product data:', err);
-        },
         retry: false,
     });
 
     const product = (error || isLoading) ? {data: defaultCatalog.data.find((product) => product.id == productId)} : data;
 
-    return {data: product, isLoading, error}
+    return {data: product?.data, isLoading, error}
 };

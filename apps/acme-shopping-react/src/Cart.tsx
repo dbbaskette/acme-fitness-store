@@ -20,9 +20,9 @@ export default function Cart() {
     });
     const navigate = useNavigate();
 
-    const {data: cartData} = useGetCart(userInfo.userId, userInfo);
-    const deleteCartItemMutation = useDeleteCartItem(userInfo.userId);
-    const {data: { data: products }} = useGetProducts();
+    const {data: cartData} = useGetCart(userInfo?.userId || '');
+    const deleteCartItemMutation = useDeleteCartItem(userInfo?.userId || '');
+    const {data: products} = useGetProducts();
 
     const cartItems = cartData?.cart ?? [];
     const total = cartItems.reduce((acc, curr) => acc + (curr.quantity * parseFloat(curr.price)), 0);

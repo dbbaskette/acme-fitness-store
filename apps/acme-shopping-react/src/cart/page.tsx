@@ -5,7 +5,7 @@ import EmptyCart from "./EmptyCart.tsx";
 
 export default function CartPage() {
   const { data: userInfo } = useGetUserInfo();
-  const { data: cartData } = useGetCart(userInfo);
+  const { data: cartData } = useGetCart(userInfo?.userId ?? '');
 
   return (
     <div className=" mb-16">

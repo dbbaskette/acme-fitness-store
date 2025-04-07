@@ -24,11 +24,11 @@ export default function ProductPage() {
   }
 
 // TODO: maybe we can refactor the Catalog Service to remove duplicate `data` tag
-  if (isProductLoading || data?.data == null) {
+  if (isProductLoading || data == null) {
     return null;
   }
 
-  const product = data.data;
+  const product = data;
 
   const handleAddToCart = () => {
     const cartItem: CartItemData = {

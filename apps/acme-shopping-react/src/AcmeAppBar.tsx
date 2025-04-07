@@ -11,9 +11,11 @@ import AssistIcon from '@mui/icons-material/TipsAndUpdates';
 import MenuIcon from '@mui/icons-material/Menu';
 import UserIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ChatIcon from '@mui/icons-material/Chat';
 import {useGetCart} from './hooks/cartHooks.ts';
 import {useGetUserInfo} from './hooks/userHooks';
 import ChatModal from "./ChatModal.tsx";
+import AskAcmeChat from "./components/AskAcmeChat.tsx";
 
 const pages = [
     {name: 'Home', navigateTo: '/'},
@@ -29,6 +31,7 @@ interface AcmeAppBarProps {
 export default function AcmeAppBar({handleLogin, handleLogout}: AcmeAppBarProps) {
     const navigate = useNavigate();
     const [chatOpen, setIsChatOpen] = useState(false);
+    const [askAcmeOpen, setAskAcmeOpen] = useState(false);
     const [userModalOpen, setUserModalOpen] = useState(false);
     const [overflowMenuAnchorEl, setOverflowMenuAnchorEl] = React.useState<null | HTMLElement>(null);
     const openOverflowMenu = Boolean(overflowMenuAnchorEl);
@@ -42,7 +45,7 @@ export default function AcmeAppBar({handleLogin, handleLogout}: AcmeAppBarProps)
 
     const {data: userInfo} = useGetUserInfo();
 
-    const {data: cartData} = useGetCart(userInfo?.userId || '', userInfo);
+    const {data: cartData} = useGetCart(userInfo?.userId || '');
 
     const itemsInCart = cartData?.cart?.reduce((total, item) => total + item.quantity, 0) || 0;
 
@@ -57,9 +60,11 @@ export default function AcmeAppBar({handleLogin, handleLogout}: AcmeAppBarProps)
     const handleChatClose = () => {
         setIsChatOpen(false);
     }
+
     const handleUserModalClose = () => {
         setUserModalOpen(false);
     }
+
     const handleLoginClick = () => {
         console.log(userInfo);
         if (userInfo && userInfo.userId) {
@@ -67,6 +72,14 @@ export default function AcmeAppBar({handleLogin, handleLogout}: AcmeAppBarProps)
         } else {
             handleLogin();
         }
+    }
+
+    const handleAskAcmeOpen = () => {
+        setAskAcmeOpen(true);
+    }
+
+    const handleAskAcmeClose = () => {
+        setAskAcmeOpen(false);
     }
 
     return (
@@ -142,6 +155,25 @@ export default function AcmeAppBar({handleLogin, handleLogout}: AcmeAppBarProps)
                             </Button>
 
                             <IconButton
+                                data-cy="ask-acme-button"
+                                onClick={handleAskAcmeOpen}
+                                color='inherit'
+                                sx={{display: {xs: 'flex', sm: 'none'}}}
+                            >
+                                <ChatIcon/>
+                            </IconButton>
+                            <Button
+                                data-cy="ask-acme-button"
+                                variant='outlined'
+                                color='inherit'
+                                onClick={handleAskAcmeOpen}
+                                startIcon={<ChatIcon/>}
+                                sx={{display: {xs: 'none', sm: 'flex'}}}
+                            >
+                                Ask Acme
+                            </Button>
+
+                            <IconButton
                                 data-cy="menu-button"
                                 onClick={handleOverflowMenuClick}
                                 color='inherit'
@@ -201,6 +233,7 @@ export default function AcmeAppBar({handleLogin, handleLogout}: AcmeAppBarProps)
                 </Box>
             </Modal>
             <ChatModal open={chatOpen} onClose={handleChatClose} cartData={cartData} productId={null}/>
+            <AskAcmeChat open={askAcmeOpen} onClose={handleAskAcmeClose}/>
         </>
     );
 }
